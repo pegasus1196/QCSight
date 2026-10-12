@@ -1,24 +1,807 @@
 <!doctype html>
-<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#f5f6f3"><title>CabinetSight — Project Eagle Eye</title><link rel="stylesheet" href="src/styles.css"></head>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#0B1121">
+  <title>CabinetSight — Project Eagle Eye</title>
+  <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="src/styles.css">
+</head>
 <body>
-<aside class="sidebar"><div class="brand"><div class="brand-mark">C<span>◉</span></div><div><strong>CabinetSight</strong><small>PROJECT EAGLE EYE</small></div></div><div class="workspace-label">WORKSPACE</div><button class="nav-item active" data-view="inspection"><span class="nav-icon">◫</span> Inspection <span class="nav-count">01</span></button><button class="nav-item" data-view="history"><span class="nav-icon">◷</span> Run history</button><div class="side-bottom"><div class="local-badge"><i></i><div><strong>Local workspace</strong><small>Your files stay on this device</small></div></div><div class="user-chip"><div class="avatar">QC</div><div><strong>QC Inspector</strong><small>Cabinet quality</small></div><span>⌄</span></div></div></aside>
-<main class="main"><header class="topbar"><div class="crumb">Projects <span>/</span> <b>Control cabinet QC</b></div><div class="top-actions"><span class="offline"><i></i> Offline mode</span><button class="help-btn" title="About this prototype">?</button></div></header>
-<section id="inspectionView" class="view"><div class="page-heading"><div><div class="eyebrow">QUALITY CONTROL · PROJECT EAGLE EYE</div><h1>Cabinet inspection</h1><p>Compare the built cabinet against its design references.</p></div><div class="step-pill"><span>01</span> New inspection</div></div>
-<div class="stepper"><div class="step current"><span>1</span><b>Upload files</b></div><div class="step-line"></div><div class="step"><span>2</span><b>Review results</b></div><div class="step-line"></div><div class="step"><span>3</span><b>Export report</b></div></div>
-<div class="setup-grid"><section class="panel upload-panel"><div class="panel-heading"><div><h2>Inspection inputs</h2><p>Add a cabinet photo and its reference files.</p></div><span class="required">4 files required</span></div><label class="field-label" for="projectName">PROJECT NAME</label><input id="projectName" class="text-input" value="Control cabinet QC" placeholder="e.g. Line 4 · Panel A">
-<div class="upload-list"><div class="upload-row"><div class="file-icon photo">▧</div><div class="upload-info"><strong>Cabinet photo <em>Required</em></strong><small>Front-facing JPG or PNG · high resolution</small><div class="file-name" id="photoName">No file selected</div></div><label class="upload-button">Browse<input id="photoInput" type="file" accept="image/png,image/jpeg"></label></div>
-<div class="upload-row"><div class="file-icon drawing">▤</div><div class="upload-info"><strong>GA drawing <em>Required</em></strong><small>General arrangement · PDF</small><div class="file-name" id="drawingName">No file selected</div></div><label class="upload-button">Browse<input id="drawingInput" type="file" accept="application/pdf"></label></div>
-<div class="upload-row"><div class="file-icon sheet">▦</div><div class="upload-info"><strong>Wire list <em>Required</em></strong><small>Connection and ferrule reference · Excel</small><div class="file-name" id="wireName">No file selected</div></div><label class="upload-button">Browse<input id="wireInput" type="file" accept=".xlsx,.xls,.csv"></label></div>
-<div class="upload-row"><div class="file-icon sheet">▦</div><div class="upload-info"><strong>Label list <em>Required</em></strong><small>Expected device labels · Excel</small><div class="file-name" id="labelName">No file selected</div></div><label class="upload-button">Browse<input id="labelInput" type="file" accept=".xlsx,.xls,.csv"></label></div></div>
-<details class="advanced"><summary><span>＋</span> Checklist template <small>Optional · use built-in checklist</small></summary><label class="upload-button secondary">Choose template<input id="checklistInput" type="file" accept=".xlsx,.xls,.csv"></label><span id="checklistName" class="file-name">No custom template selected</span></details>
-<div class="privacy-note"><span>⌑</span><div><strong>Private by design</strong><small>Files are processed in this browser and are not uploaded.</small></div><span class="lock">◈</span></div><div class="action-row"><button id="demoButton" class="text-action">Try demo data <span>↗</span></button><button id="runButton" class="primary-button" disabled>Run inspection <span>→</span></button></div></section>
-<aside class="panel checks-panel"><div class="panel-heading"><div><h2>Checks in this run</h2><p>Choose which checks to include.</p></div><button id="resetChecks" class="more-btn" title="Reset checks">↺</button></div><div class="checks-list">
-<label class="check-toggle"><div><strong>Device presence</strong><small>Parts shown on the drawing</small></div><input type="checkbox" checked data-check="presence"><span class="switch"></span></label><label class="check-toggle"><div><strong>Device labels</strong><small>Printed label matches design</small></div><input type="checkbox" checked data-check="labels"><span class="switch"></span></label><label class="check-toggle"><div><strong>Wire ferrules</strong><small>Wire end IDs match wire list</small></div><input type="checkbox" checked data-check="ferrules"><span class="switch"></span></label><label class="check-toggle"><div><strong>Photo alignment</strong><small>Cabinet photo against GA layout</small></div><input type="checkbox" checked data-check="alignment"><span class="switch"></span></label><label class="check-toggle"><div><strong>Wire colour</strong><small>Colour code and terminal position</small><span class="stretch">STRETCH</span></div><input type="checkbox" data-check="colour"><span class="switch"></span></label></div>
-<div class="confidence-box"><div><span>Conservative review</span><span class="confidence-value">72%</span></div><p>Low-confidence readings are marked <b>UNREADABLE</b>, never guessed.</p><input type="range" min="50" max="95" value="72" id="confidence"><div class="range-labels"><span>More findings</span><span>Fewer false alarms</span></div></div></aside></div>
-<section id="resultsSection" class="results-section hidden"><div class="result-title"><div><div class="eyebrow">INSPECTION COMPLETE <span class="demo-tag">DEMO RESULTS</span></div><h2 id="resultProject">Control cabinet QC</h2><p id="runMeta">Run ID · —</p></div><div class="result-actions"><button id="recheckButton" class="secondary-button">↻ Re-check after fix</button><button id="exportButton" class="primary-button">Export report <span>↓</span></button></div></div>
-<div class="summary-cards"><div class="summary-card"><span class="summary-icon pass">✓</span><div><small>PASS</small><strong id="passCount">0</strong></div></div><div class="summary-card"><span class="summary-icon fail">!</span><div><small>FAIL</small><strong id="failCount">0</strong></div></div><div class="summary-card"><span class="summary-icon unread">?</span><div><small>UNREADABLE</small><strong id="unreadCount">0</strong></div></div><div class="summary-card"><span class="summary-icon total">▤</span><div><small>ITEMS CHECKED</small><strong id="totalCount">0</strong></div></div></div>
-<div class="results-grid"><section class="panel table-panel"><div class="table-heading"><div><h2>QC checklist</h2><p>Review each item and its expected versus found value.</p></div><select id="statusFilter" class="filter"><option value="all">All results</option><option>FAIL</option><option>PASS</option><option>UNREADABLE</option><option>CLOSED</option></select></div><div class="table-wrap"><table><thead><tr><th>CHECK ITEM</th><th>EXPECTED</th><th>FOUND</th><th>RESULT</th></tr></thead><tbody id="resultsBody"></tbody></table></div><div class="table-foot"><span id="visibleCount">Showing all items</span><button id="showAll" class="text-action">View all items →</button></div></section>
-<section class="panel evidence-panel"><div class="table-heading"><div><h2>Photo evidence</h2><p>Selected finding <span id="evidenceLabel">· Choose a result</span></p></div><button id="zoomButton" class="icon-btn" title="Zoom image">⌕</button></div><div class="photo-frame" id="photoFrame"><div class="placeholder-cabinet hidden"><div class="cabinet-top">CONTROL CABINET</div><div class="cabinet-inner"><div class="device-row"><i></i><i></i><i></i><i></i></div><div class="device-row slim"><i></i><i></i><i></i><i></i><i></i></div><div class="terminal-row"></div><div class="wire-row"><span></span><span></span><span></span><span></span><span></span></div></div><div class="photo-caption">DEMO CABINET · FRONT VIEW</div></div><img id="cabinetPreview" class="cabinet-preview" src="assets/cabinet-demo.png" alt="Cabinet QC example from the problem statement"><div id="photoMarkers"></div><div class="photo-legend"><span><i class="legend-fail"></i> Fail</span><span><i class="legend-unread"></i> Unreadable</span></div></div><div class="evidence-detail" id="evidenceDetail"><span class="detail-icon">↖</span><div><strong>Select a checklist item</strong><small>Photo evidence and expected versus found details appear here.</small></div></div></section></div>
-<section id="historyCompare" class="panel history-compare hidden"><div><h2>Run comparison</h2><p id="compareSummary">Re-check results will appear here.</p></div><div id="compareStats"></div></section></section><footer class="footer"><span>CabinetSight <b>·</b> Prototype v0.1</span><span>All processing stays local <i></i></span></footer></section>
-<section id="historyView" class="view hidden"><div class="page-heading"><div><div class="eyebrow">PROJECT RECORDS</div><h1>Run history</h1><p>Saved inspections and re-checks for this workspace.</p></div><button id="newInspection" class="primary-button">＋ New inspection</button></div><div id="historyList" class="history-list"></div><div class="footer"><span>CabinetSight <b>·</b> Prototype v0.1</span><span>Stored in this browser <i></i></span></div></section></main>
-<div id="toast" class="toast"></div><div id="zoomModal" class="zoom-modal hidden"><button id="closeZoom">×</button><div id="zoomContent"></div><p>Photo evidence · click anywhere to close</p></div><script src="src/app.js"></script></body></html>
+
+<!-- ═══ NAVBAR ═══ -->
+<nav class="navbar" id="navbar">
+  <div class="nav-container">
+    <a href="#hero" class="nav-brand">
+      <div class="brand-icon">C<span>S</span></div>
+      <div class="brand-text">
+        <strong>CabinetSight</strong>
+        <small>PROJECT EAGLE EYE</small>
+      </div>
+    </a>
+    <div class="nav-links" id="navLinks">
+      <a href="#features" class="nav-link">Features</a>
+      <a href="#workspace" class="nav-link">Workspace</a>
+      <a href="#technology" class="nav-link">Technology</a>
+      <a href="#process" class="nav-link">Process</a>
+      <a href="#architecture" class="nav-link">Architecture</a>
+    </div>
+    <div class="nav-actions">
+      <button class="theme-btn" id="themeToggle" title="Toggle theme">
+        <svg class="icon-sun" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
+        <svg class="icon-moon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+      </button>
+      <button class="hamburger" id="hamburger" aria-label="Menu">
+        <span></span><span></span><span></span>
+      </button>
+      <a href="#workspace" class="nav-cta">Start Inspection</a>
+    </div>
+  </div>
+</nav>
+
+<!-- ═══ HERO ═══ -->
+<section class="hero" id="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-container">
+    <div class="hero-content">
+      <div class="hero-badge">
+        <span class="badge-dot"></span>
+        PROJECT EAGLE EYE · EMERSON
+      </div>
+      <h1>Intelligent Cabinet<br><span class="gradient-text">Quality Inspection</span></h1>
+      <p class="hero-sub">AI-powered visual inspection using ORB/SIFT feature matching, deep learning OCR, and YOLO object detection. Precision-first — never a false fail.</p>
+      <div class="hero-ctas">
+        <a href="#workspace" class="btn-primary btn-lg">
+          <span>Start Inspection</span>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </a>
+        <button class="btn-outline btn-lg" id="heroDemoBtn">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+          <span>Try Demo</span>
+        </button>
+      </div>
+      <div class="hero-trust">
+        <div class="trust-item">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+          <span>100% Local Processing</span>
+        </div>
+        <div class="trust-item">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+          <span>IEC 60446 Compliant</span>
+        </div>
+        <div class="trust-item">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+          <span>Real-time Analysis</span>
+        </div>
+      </div>
+    </div>
+    <div class="hero-visual">
+      <div class="glow-orb"></div>
+      <div class="cabinet-3d">
+        <div class="cabinet-scene">
+          <div class="cabinet-box">
+            <div class="cab-face cab-front">
+              <div class="cab-header">CONTROL PANEL</div>
+              <div class="cab-components">
+                <div class="comp-row breakers">
+                  <div class="breaker on"></div>
+                  <div class="breaker on"></div>
+                  <div class="breaker off"></div>
+                  <div class="breaker on"></div>
+                </div>
+                <div class="comp-row slim">
+                  <div class="relay"></div>
+                  <div class="relay"></div>
+                  <div class="relay"></div>
+                  <div class="relay"></div>
+                  <div class="relay"></div>
+                </div>
+                <div class="comp-row terminals">
+                  <div class="terminal-strip"></div>
+                </div>
+                <div class="comp-row wires">
+                  <div class="wire red"></div>
+                  <div class="wire blue"></div>
+                  <div class="wire yellow"></div>
+                  <div class="wire green"></div>
+                  <div class="wire orange"></div>
+                </div>
+              </div>
+              <div class="scan-line"></div>
+            </div>
+            <div class="cab-face cab-right"></div>
+            <div class="cab-face cab-left"></div>
+            <div class="cab-face cab-top"></div>
+            <div class="cab-face cab-bottom"></div>
+            <div class="cab-face cab-back"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ STATS ═══ -->
+<section class="stats" id="stats">
+  <div class="stats-container">
+    <div class="stat-card" data-target="1308" data-suffix="+">
+      <strong class="stat-number">0</strong>
+      <span>ORB Keypoints</span>
+    </div>
+    <div class="stat-divider"></div>
+    <div class="stat-card" data-target="45">
+      <strong class="stat-number">0</strong>
+      <span>Component Classes</span>
+    </div>
+    <div class="stat-divider"></div>
+    <div class="stat-card" data-target="772">
+      <strong class="stat-number">0</strong>
+      <span>Training Images</span>
+    </div>
+    <div class="stat-divider"></div>
+    <div class="stat-card" data-target="5" data-suffix="">
+      <strong class="stat-number">0</strong>
+      <span>Check Categories</span>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ FEATURES ═══ -->
+<section class="features" id="features">
+  <div class="section-container">
+    <div class="section-header">
+      <span class="section-badge">CAPABILITIES</span>
+      <h2>Comprehensive Quality Control</h2>
+      <p>Six inspection modules powered by computer vision and deep learning</p>
+    </div>
+    <div class="features-grid">
+      <div class="feature-card" data-feature="presence">
+        <div class="feature-icon" style="--accent: var(--clr-primary)">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>
+        </div>
+        <h3>Device Presence</h3>
+        <p>Verifies every component from the GA drawing exists in the built cabinet using contour matching and feature detection.</p>
+        <span class="feature-tag">ORB + SIFT</span>
+      </div>
+      <div class="feature-card" data-feature="labels">
+        <div class="feature-icon" style="--accent: var(--clr-accent)">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 7V4h16v3M9 20h6M12 4v16"/></svg>
+        </div>
+        <h3>Label Verification</h3>
+        <p>OCR reads printed device labels and fuzzy-matches them against the design's expected label list.</p>
+        <span class="feature-tag">EasyOCR + RapidFuzz</span>
+      </div>
+      <div class="feature-card" data-feature="ferrules">
+        <div class="feature-icon" style="--accent: var(--clr-success)">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+        </div>
+        <h3>Wire Ferrules</h3>
+        <p>Detects ferrule markings on wire ends using region-of-interest OCR and validates against the wire list.</p>
+        <span class="feature-tag">ROI + OCR</span>
+      </div>
+      <div class="feature-card" data-feature="alignment">
+        <div class="feature-icon" style="--accent: var(--clr-warning)">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 3v18"/></svg>
+        </div>
+        <h3>Photo Alignment</h3>
+        <p>Feature-based homography registers the cabinet photo against the GA drawing layout with SSIM scoring.</p>
+        <span class="feature-tag">Homography + RANSAC</span>
+      </div>
+      <div class="feature-card" data-feature="colour">
+        <div class="feature-icon" style="--accent: var(--clr-danger)">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="13.5" cy="6.5" r="2.5"/><circle cx="6" cy="12" r="2.5"/><circle cx="18" cy="18" r="2.5"/><path d="M15.5 8.5L17 14.5"/><path d="M8.5 12.5L15.5 17"/></svg>
+        </div>
+        <h3>Wire Colour</h3>
+        <p>HSV colour space analysis with K-means clustering validates wire colours against the IEC 60446 standard.</p>
+        <span class="feature-tag">K-Means + HSV</span>
+      </div>
+      <div class="feature-card" data-feature="yolo">
+        <div class="feature-icon" style="--accent: #f472b6">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg>
+        </div>
+        <h3>YOLO Detection</h3>
+        <p>YOLOv11 object detection trained on 772 circuit element images across 45 component classes.</p>
+        <span class="feature-tag">YOLOv11 + 45 Classes</span>
+      </div>
+    </div>
+
+    <!-- Feature Detail Modal -->
+    <div class="feature-modal hidden" id="featureModal">
+      <div class="fm-backdrop"></div>
+      <div class="fm-container">
+        <button class="fm-close" id="fmClose">&times;</button>
+        <div class="fm-scene">
+          <div class="fm-card">
+            <div class="fm-front">
+              <div class="fm-header">
+                <div class="fm-icon" id="fmIcon"></div>
+                <div>
+                  <h3 id="fmTitle"></h3>
+                  <span class="fm-tag" id="fmTag"></span>
+                </div>
+              </div>
+              <p class="fm-desc" id="fmDesc"></p>
+              <div class="fm-stats" id="fmStats"></div>
+              <div class="fm-section">
+                <h4>How It Works</h4>
+                <div class="fm-pipeline" id="fmPipeline"></div>
+              </div>
+              <div class="fm-section">
+                <h4>Model &amp; Dataset</h4>
+                <div class="fm-details" id="fmModel"></div>
+              </div>
+              <div class="fm-section">
+                <h4>Key Parameters</h4>
+                <div class="fm-params" id="fmParams"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ WORKSPACE ═══ -->
+<section class="workspace" id="workspace">
+  <div class="section-container">
+    <div class="section-header">
+      <span class="section-badge">WORKSPACE</span>
+      <h2>Inspection Workspace</h2>
+      <p>Upload your cabinet photos, configure checks, and run AI-powered analysis</p>
+    </div>
+
+    <div class="ws-tabs">
+      <button class="ws-tab active" data-tab="inspect">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+        New Inspection
+      </button>
+      <button class="ws-tab" data-tab="history">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+        Run History
+      </button>
+    </div>
+
+    <!-- ── INSPECT TAB ── -->
+    <div id="inspectTab" class="tab-panel">
+      <div class="ws-grid">
+        <!-- Upload Panel -->
+        <div class="ws-panel">
+          <div class="panel-head">
+            <h3>Inspection Inputs</h3>
+            <span class="badge-outline">4 required</span>
+          </div>
+          <label class="input-label">PROJECT NAME</label>
+          <input id="projectName" class="text-input" value="Control cabinet QC" placeholder="e.g. Line 4 · Panel A">
+
+          <div class="upload-list">
+            <div class="upload-row">
+              <div class="file-icon photo-icon">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+              </div>
+              <div class="upload-info">
+                <strong>Cabinet photo <em>Required</em></strong>
+                <small>Front-facing JPG or PNG · high resolution</small>
+                <span class="file-name" id="photoName">No file selected</span>
+              </div>
+              <label class="upload-btn">Browse<input id="photoInput" type="file" accept="image/png,image/jpeg"></label>
+            </div>
+            <div class="upload-row">
+              <div class="file-icon drawing-icon">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+              </div>
+              <div class="upload-info">
+                <strong>GA drawing <em>Required</em></strong>
+                <small>General arrangement · PDF</small>
+                <span class="file-name" id="drawingName">No file selected</span>
+              </div>
+              <label class="upload-btn">Browse<input id="drawingInput" type="file" accept="application/pdf"></label>
+            </div>
+            <div class="upload-row">
+              <div class="file-icon sheet-icon">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/><path d="M13 2v7h7"/></svg>
+              </div>
+              <div class="upload-info">
+                <strong>Wire list <em>Required</em></strong>
+                <small>Connection and ferrule reference · Excel</small>
+                <span class="file-name" id="wireName">No file selected</span>
+              </div>
+              <label class="upload-btn">Browse<input id="wireInput" type="file" accept=".xlsx,.xls,.csv"></label>
+            </div>
+            <div class="upload-row">
+              <div class="file-icon sheet-icon">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/><path d="M13 2v7h7"/></svg>
+              </div>
+              <div class="upload-info">
+                <strong>Label list <em>Required</em></strong>
+                <small>Expected device labels · Excel</small>
+                <span class="file-name" id="labelName">No file selected</span>
+              </div>
+              <label class="upload-btn">Browse<input id="labelInput" type="file" accept=".xlsx,.xls,.csv"></label>
+            </div>
+          </div>
+
+          <details class="advanced-section">
+            <summary><span>+</span> Custom checklist template <small>Optional</small></summary>
+            <div class="advanced-body">
+              <label class="upload-btn secondary">Choose file<input id="checklistInput" type="file" accept=".xlsx,.xls,.csv"></label>
+              <span class="file-name" id="checklistName">No template selected</span>
+            </div>
+          </details>
+
+          <div class="privacy-note">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+            <div>
+              <strong>Private by design</strong>
+              <small>All files processed locally — nothing leaves your device</small>
+            </div>
+          </div>
+
+          <div class="action-row">
+            <button id="demoButton" class="btn-ghost">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+              Try demo data
+            </button>
+            <button id="runButton" class="btn-primary" disabled>
+              Run Inspection
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            </button>
+          </div>
+        </div>
+
+        <!-- Config Panel -->
+        <div class="ws-panel config-panel">
+          <div class="panel-head">
+            <h3>Check Configuration</h3>
+            <button id="resetChecks" class="btn-icon-sm" title="Reset defaults">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"/></svg>
+            </button>
+          </div>
+          <div class="checks-list">
+            <label class="check-toggle"><div><strong>Device presence</strong><small>Parts shown on the drawing</small></div><input type="checkbox" checked data-check="presence"><span class="toggle-track"></span></label>
+            <label class="check-toggle"><div><strong>Device labels</strong><small>Printed label matches design</small></div><input type="checkbox" checked data-check="labels"><span class="toggle-track"></span></label>
+            <label class="check-toggle"><div><strong>Wire ferrules</strong><small>Wire end IDs match wire list</small></div><input type="checkbox" checked data-check="ferrules"><span class="toggle-track"></span></label>
+            <label class="check-toggle"><div><strong>Photo alignment</strong><small>Cabinet photo vs GA layout</small></div><input type="checkbox" checked data-check="alignment"><span class="toggle-track"></span></label>
+            <label class="check-toggle"><div><strong>Wire colour</strong><small>Colour code and terminal position</small><span class="tag-stretch">STRETCH</span></div><input type="checkbox" data-check="colour"><span class="toggle-track"></span></label>
+          </div>
+
+          <div class="confidence-box">
+            <div class="conf-head">
+              <span>Confidence Threshold</span>
+              <span class="conf-val" id="confValue">72%</span>
+            </div>
+            <p class="conf-note">Low-confidence readings are marked <b>UNREADABLE</b>, never guessed.</p>
+            <input type="range" min="50" max="95" value="72" id="confidence" class="range-input">
+            <div class="conf-labels">
+              <span>More findings</span>
+              <span>Fewer false alarms</span>
+            </div>
+          </div>
+
+          <div class="pipeline-section">
+            <h4>Analysis Pipeline</h4>
+            <div class="pipeline-list" id="pipelineList">
+              <div class="pipeline-item"><span class="pip-dot ready"></span><span>ORB Feature Detection</span><span class="pip-status">Ready</span></div>
+              <div class="pipeline-item"><span class="pip-dot ready"></span><span>SIFT Descriptor Matching</span><span class="pip-status">Ready</span></div>
+              <div class="pipeline-item"><span class="pip-dot ready"></span><span>EasyOCR Text Recognition</span><span class="pip-status">Ready</span></div>
+              <div class="pipeline-item"><span class="pip-dot ready"></span><span>YOLO Component Detection</span><span class="pip-status">Ready</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── RESULTS AREA ── -->
+      <div id="resultsArea" class="results-area hidden">
+        <div class="results-header">
+          <div>
+            <span class="results-badge" id="resultsBadge">DEMO RESULTS</span>
+            <h3 id="resultProject">Control cabinet QC</h3>
+            <p id="runMeta">Run ID · —</p>
+          </div>
+          <div class="result-actions">
+            <button id="recheckButton" class="btn-outline">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"/></svg>
+              Re-check
+            </button>
+            <button id="exportButton" class="btn-primary">
+              Export Report
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+            </button>
+          </div>
+        </div>
+
+        <div class="summary-grid">
+          <div class="summary-card sc-pass">
+            <div class="sc-icon">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+            </div>
+            <div><small>PASS</small><strong id="passCount">0</strong></div>
+          </div>
+          <div class="summary-card sc-fail">
+            <div class="sc-icon">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+            </div>
+            <div><small>FAIL</small><strong id="failCount">0</strong></div>
+          </div>
+          <div class="summary-card sc-warn">
+            <div class="sc-icon">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+            </div>
+            <div><small>UNREADABLE</small><strong id="unreadCount">0</strong></div>
+          </div>
+          <div class="summary-card sc-total">
+            <div class="sc-icon">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+            </div>
+            <div><small>TOTAL ITEMS</small><strong id="totalCount">0</strong></div>
+          </div>
+        </div>
+
+        <div class="results-grid">
+          <div class="ws-panel table-panel">
+            <div class="table-head">
+              <div><h4>QC Checklist</h4><p>Review each item and its expected vs found value</p></div>
+              <select id="statusFilter" class="select-input">
+                <option value="all">All results</option>
+                <option>FAIL</option><option>PASS</option><option>UNREADABLE</option><option>CLOSED</option>
+              </select>
+            </div>
+            <div class="table-wrap"><table><thead><tr><th>CHECK ITEM</th><th>EXPECTED</th><th>FOUND</th><th>RESULT</th></tr></thead><tbody id="resultsBody"></tbody></table></div>
+            <div class="table-foot"><span id="visibleCount">Showing all items</span><button id="showAll" class="btn-text">View all</button></div>
+          </div>
+
+          <div class="ws-panel evidence-panel">
+            <div class="table-head">
+              <div><h4>Photo Evidence</h4><p>Selected finding <span id="evidenceLabel">· Choose a result</span></p></div>
+              <button id="zoomButton" class="btn-icon-sm" title="Zoom">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/><line x1="11" y1="8" x2="11" y2="14"/><line x1="8" y1="11" x2="14" y2="11"/></svg>
+              </button>
+            </div>
+            <div class="photo-frame" id="photoFrame">
+              <img id="cabinetPreview" src="assets/cabinet-demo.png" alt="Cabinet photo">
+              <div id="photoMarkers"></div>
+              <div class="photo-legend">
+                <span><i class="dot-fail"></i> Fail</span>
+                <span><i class="dot-warn"></i> Unreadable</span>
+              </div>
+            </div>
+            <div class="evidence-detail" id="evidenceDetail">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 15l-2 5L9 9l11 4-5 2z"/></svg>
+              <div><strong>Select a checklist item</strong><small>Photo evidence and details appear here</small></div>
+            </div>
+            <div class="ai-suggestion hidden" id="aiSuggestion">
+              <div class="ai-header">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L9 9H2l6 4.5L5.5 21 12 16.5 18.5 21 16 13.5 22 9h-7z"/></svg>
+                <span>AI CORRECTIVE ACTION</span>
+              </div>
+              <p class="ai-body" id="aiSuggestionText"></p>
+              <div class="ai-footer">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"/></svg>
+                <span>Re-check after applying fix to close this item</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div id="analysisDetails" class="analysis-details hidden">
+          <h4>Pipeline Analysis Details</h4>
+          <div class="analysis-grid">
+            <div class="analysis-item"><span class="al-label">ORB Keypoints</span><span class="al-value" id="orbCount">—</span></div>
+            <div class="analysis-item"><span class="al-label">SIFT Features</span><span class="al-value" id="siftCount">—</span></div>
+            <div class="analysis-item"><span class="al-label">OCR Texts Found</span><span class="al-value" id="ocrCount">—</span></div>
+            <div class="analysis-item"><span class="al-label">Processing Time</span><span class="al-value" id="procTime">—</span></div>
+          </div>
+        </div>
+
+        <div id="historyCompare" class="compare-section hidden">
+          <h4>Run Comparison</h4>
+          <p id="compareSummary">Re-check results will appear here.</p>
+          <div id="compareStats"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── HISTORY TAB ── -->
+    <div id="historyTab" class="tab-panel hidden">
+      <div id="historyList" class="history-list"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ TECHNOLOGY ═══ -->
+<section class="technology" id="technology">
+  <div class="section-container">
+    <div class="section-header">
+      <span class="section-badge">UNDER THE HOOD</span>
+      <h2>Technology Stack</h2>
+      <p>Built on proven computer vision and deep learning frameworks</p>
+    </div>
+    <div class="tech-grid">
+      <div class="tech-card" data-tech="orb_sift">
+        <div class="tech-icon">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+        </div>
+        <h3>ORB / SIFT</h3>
+        <p>Oriented FAST and Rotated BRIEF for real-time keypoint detection. Scale-Invariant Feature Transform for robust descriptor matching with BFMatcher and Lowe's ratio test.</p>
+        <div class="tech-tags">
+          <span>Feature Detection</span><span>Keypoint Matching</span><span>RANSAC</span>
+        </div>
+      </div>
+      <div class="tech-card" data-tech="easyocr">
+        <div class="tech-icon">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 7V4h16v3M9 20h6M12 4v16"/></svg>
+        </div>
+        <h3>EasyOCR</h3>
+        <p>Deep learning OCR with CRAFT text detection and CRNN recognition. CLAHE preprocessing enhances contrast for industrial label reading. Pytesseract fallback for edge cases.</p>
+        <div class="tech-tags">
+          <span>CRAFT + CRNN</span><span>CLAHE</span><span>RapidFuzz</span>
+        </div>
+      </div>
+      <div class="tech-card" data-tech="yolov11">
+        <div class="tech-icon">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg>
+        </div>
+        <h3>YOLOv11</h3>
+        <p>State-of-the-art object detection trained on 772 circuit element images. 45 component classes including breakers, capacitors, transformers, and more.</p>
+        <div class="tech-tags">
+          <span>Object Detection</span><span>45 Classes</span><span>CC BY 4.0</span>
+        </div>
+      </div>
+      <div class="tech-card" data-tech="opencv">
+        <div class="tech-icon">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+        </div>
+        <h3>OpenCV 5</h3>
+        <p>Industry-standard computer vision library. Image registration via homography, perspective rectification, colour space transforms, and contour analysis.</p>
+        <div class="tech-tags">
+          <span>Homography</span><span>HSV Analysis</span><span>Contours</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ PROCESS ═══ -->
+<section class="process" id="process">
+  <div class="section-container">
+    <div class="section-header">
+      <span class="section-badge">WORKFLOW</span>
+      <h2>How It Works</h2>
+      <p>Five-step closed-loop pipeline from upload to verified fix</p>
+    </div>
+    <div class="process-timeline" id="processTimeline">
+      <div class="process-step" data-step="1">
+        <div class="step-icon-wrap">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+        </div>
+        <div class="step-num">01</div>
+        <h3>Upload</h3>
+        <p>Add your cabinet photo, GA drawing, wire list, and label list. All files stay on your device — zero cloud dependency.</p>
+      </div>
+      <div class="process-connector"></div>
+      <div class="process-step" data-step="2">
+        <div class="step-icon-wrap">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82V15"/></svg>
+        </div>
+        <div class="step-num">02</div>
+        <h3>Configure</h3>
+        <p>Select which checks to run and set your confidence threshold for precision-first analysis.</p>
+      </div>
+      <div class="process-connector"></div>
+      <div class="process-step" data-step="3">
+        <div class="step-icon-wrap accent">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/><line x1="11" y1="8" x2="11" y2="14"/><line x1="8" y1="11" x2="14" y2="11"/></svg>
+        </div>
+        <div class="step-num">03</div>
+        <h3>Analyze</h3>
+        <p>ORB/SIFT, OCR, HSV, and YOLO pipelines process your images in seconds with detailed evidence per check.</p>
+      </div>
+      <div class="process-connector"></div>
+      <div class="process-step" data-step="4">
+        <div class="step-icon-wrap suggest">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2a7 7 0 0 0-7 7c0 2.38 1.19 4.47 3 5.74V17a2 2 0 0 0 2 2h4a2 2 0 0 0 2-2v-2.26c1.81-1.27 3-3.36 3-5.74a7 7 0 0 0-7-7z"/><line x1="9" y1="21" x2="15" y2="21"/></svg>
+        </div>
+        <div class="step-num">04</div>
+        <h3>AI Suggest</h3>
+        <p>Every FAIL gets a step-by-step AI corrective action — which tool, where to fix, and how to verify the repair.</p>
+      </div>
+      <div class="process-connector"></div>
+      <div class="process-step" data-step="5">
+        <div class="step-icon-wrap success">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+        </div>
+        <div class="step-num">05</div>
+        <h3>Re-Check</h3>
+        <p>Fix the issue, re-photograph, and re-run. Closed-loop verification marks resolved items CLOSED automatically.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ ARCHITECTURE ═══ -->
+<section class="architecture" id="architecture">
+  <div class="section-container">
+    <div class="section-header">
+      <span class="section-badge">SYSTEM DESIGN</span>
+      <h2>System Architecture</h2>
+      <p>End-to-end inspection pipeline running entirely on-device</p>
+    </div>
+    <div class="arch-diagram" id="archDiagram">
+      <!-- Input Layer -->
+      <div class="arch-layer" data-layer="input">
+        <div class="arch-layer-label">INPUT</div>
+        <div class="arch-nodes">
+          <div class="arch-node">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+            <span>Cabinet Photo</span>
+          </div>
+          <div class="arch-node">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+            <span>GA Drawing</span>
+          </div>
+          <div class="arch-node">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/><polyline points="13 2 13 9 20 9"/></svg>
+            <span>Wire List (.xlsx)</span>
+          </div>
+          <div class="arch-node">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+            <span>Label List (.xlsx)</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="arch-flow-arrow">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><polyline points="19 12 12 19 5 12"/></svg>
+      </div>
+
+      <!-- Processing Layer -->
+      <div class="arch-layer" data-layer="process">
+        <div class="arch-layer-label">PROCESSING</div>
+        <div class="arch-nodes">
+          <div class="arch-node primary">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="4" width="16" height="16" rx="2"/><rect x="9" y="9" width="6" height="6"/></svg>
+            <span>FastAPI Server</span>
+          </div>
+          <div class="arch-node primary">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06"/></svg>
+            <span>CV Inspector</span>
+          </div>
+          <div class="arch-node primary">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 7V4h16v3M9 20h6M12 4v16"/></svg>
+            <span>OCR Reader</span>
+          </div>
+          <div class="arch-node primary">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="13.5" cy="6.5" r="2.5"/><circle cx="6" cy="12" r="2.5"/><circle cx="18" cy="18" r="2.5"/></svg>
+            <span>Color Analyzer</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="arch-flow-arrow">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><polyline points="19 12 12 19 5 12"/></svg>
+      </div>
+
+      <!-- AI Layer -->
+      <div class="arch-layer" data-layer="ai">
+        <div class="arch-layer-label">AI MODELS</div>
+        <div class="arch-nodes">
+          <div class="arch-node accent">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>
+            <span>ORB + SIFT</span>
+            <small>Keypoint matching</small>
+          </div>
+          <div class="arch-node accent">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 7V4h16v3M9 20h6M12 4v16"/></svg>
+            <span>CRAFT + CRNN</span>
+            <small>Text recognition</small>
+          </div>
+          <div class="arch-node accent">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg>
+            <span>YOLOv11</span>
+            <small>Object detection</small>
+          </div>
+          <div class="arch-node accent">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="13.5" cy="6.5" r="2.5"/><circle cx="6" cy="12" r="2.5"/><path d="M8.5 12.5L15.5 17"/></svg>
+            <span>K-Means + HSV</span>
+            <small>Color classification</small>
+          </div>
+        </div>
+      </div>
+
+      <div class="arch-flow-arrow">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><polyline points="19 12 12 19 5 12"/></svg>
+      </div>
+
+      <!-- Output Layer -->
+      <div class="arch-layer" data-layer="output">
+        <div class="arch-layer-label">OUTPUT</div>
+        <div class="arch-nodes">
+          <div class="arch-node success">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+            <span>QC Checklist</span>
+          </div>
+          <div class="arch-node success">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2a7 7 0 0 0-7 7c0 2.38 1.19 4.47 3 5.74V17a2 2 0 0 0 2 2h4a2 2 0 0 0 2-2v-2.26c1.81-1.27 3-3.36 3-5.74a7 7 0 0 0-7-7z"/><line x1="9" y1="21" x2="15" y2="21"/></svg>
+            <span>AI Suggestions</span>
+          </div>
+          <div class="arch-node success">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+            <span>PDF / CSV Report</span>
+          </div>
+          <div class="arch-node success">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg>
+            <span>Re-Check Loop</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Closed loop arrow -->
+      <div class="arch-loop">
+        <svg width="100%" height="40" viewBox="0 0 600 40" preserveAspectRatio="none">
+          <path d="M500 5 Q580 5 580 20 Q580 35 500 35 L100 35 Q20 35 20 20 Q20 5 100 5" fill="none" stroke="currentColor" stroke-width="1.5" stroke-dasharray="6 4" opacity="0.4"/>
+          <polygon points="95,2 105,5 95,8" fill="currentColor" opacity="0.4"/>
+        </svg>
+        <span class="arch-loop-label">Closed-loop: FAIL &rarr; Fix &rarr; Re-check &rarr; CLOSED</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ FOOTER ═══ -->
+<footer class="site-footer">
+  <div class="footer-container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <div class="nav-brand">
+          <div class="brand-icon">C<span>S</span></div>
+          <div class="brand-text"><strong>CabinetSight</strong><small>PROJECT EAGLE EYE</small></div>
+        </div>
+        <p>AI-powered cabinet quality inspection. All processing stays local — your data never leaves your device.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Quick Links</h4>
+        <a href="#features">Features</a>
+        <a href="#workspace">Workspace</a>
+        <a href="#technology">Technology</a>
+        <a href="#process">How It Works</a>
+        <a href="#architecture">Architecture</a>
+      </div>
+      <div class="footer-col">
+        <h4>Technology</h4>
+        <a href="#technology">ORB / SIFT</a>
+        <a href="#technology">EasyOCR</a>
+        <a href="#technology">YOLOv11</a>
+        <a href="#technology">OpenCV 5</a>
+      </div>
+      <div class="footer-col">
+        <h4>Project</h4>
+        <span>Emerson Problem Statement #03</span>
+        <span>VIT Code Apex 3.0</span>
+        <span>Python 3.14 + FastAPI</span>
+        <span>100% Offline Capable</span>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>CabinetSight · Prototype v0.2 · All processing stays local</span>
+      <span>Built with OpenCV, Ultralytics, EasyOCR</span>
+    </div>
+  </div>
+</footer>
+
+<!-- ═══ TOAST CONTAINER ═══ -->
+<div id="toastContainer" class="toast-container"></div>
+
+<!-- ═══ ZOOM MODAL ═══ -->
+<div id="zoomModal" class="zoom-modal hidden">
+  <button id="closeZoom" class="zoom-close">&times;</button>
+  <div id="zoomContent" class="zoom-body"></div>
+  <p class="zoom-hint">Click anywhere to close</p>
+</div>
+
+<script src="src/app.js"></script>
+</body>
+</html>
