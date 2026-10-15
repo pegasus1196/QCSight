@@ -69,11 +69,15 @@ The training pipeline is implemented in `backend/training/train_yolo.py` with th
 
 ```bash
 # Clone
-git clone https://github.com/your-username/QCSight.git
-cd QCSight
+git clone https://github.com/poojawork102/CabinetSight-AI-Project.git
+cd CabinetSight-AI-Project
 
 # Install dependencies
-pip install fastapi uvicorn opencv-python-headless easyocr rapidfuzz openpyxl reportlab ultralytics pytesseract
+pip install -r requirements.txt
+
+# Tesseract OCR binary (needed for pytesseract fallback)
+# Windows: download installer from https://github.com/UB-Mannheim/tesseract/wiki
+# Ubuntu:  sudo apt install tesseract-ocr
 
 # Run
 python run.py

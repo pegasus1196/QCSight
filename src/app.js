@@ -712,7 +712,7 @@
         { name: 'input_size', val: '640×640' },
         { name: 'conf_threshold', val: '0.25' },
         { name: 'iou_threshold', val: '0.45' },
-        { name: 'epochs', val: '100' }
+        { name: 'epochs', val: '50' }
       ]
     }
   };
@@ -851,7 +851,7 @@
         { name: 'input_size', val: '640×640' },
         { name: 'conf_thresh', val: '0.25' },
         { name: 'iou_thresh', val: '0.45' },
-        { name: 'epochs', val: '100' }
+        { name: 'epochs', val: '50' }
       ]
     },
     opencv: {
