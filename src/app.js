@@ -556,7 +556,7 @@
         { key: 'ALGORITHM', val: 'ORB (Oriented FAST + Rotated BRIEF)' },
         { key: 'REFINER', val: 'SIFT (Scale-Invariant Feature Transform)' },
         { key: 'MATCHER', val: 'BFMatcher with L2 norm + Lowe\'s ratio' },
-        { key: 'LIBRARY', val: 'OpenCV 5.0 (cv2)' }
+        { key: 'LIBRARY', val: 'OpenCV (cv2)' }
       ],
       params: [
         { name: 'nfeatures', val: '1500' },
@@ -659,7 +659,7 @@
       title: 'Wire Colour',
       tag: 'K-Means + HSV',
       icon: '<svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="13.5" cy="6.5" r="2.5"/><circle cx="6" cy="12" r="2.5"/><circle cx="18" cy="18" r="2.5"/><path d="M15.5 8.5L17 14.5"/><path d="M8.5 12.5L15.5 17"/></svg>',
-      desc: 'Detects wire regions using edge detection and saturation-based masking, then identifies each wire\'s colour via HSV range matching (primary) and K-means clustering (fallback). Validates against IEC 60446 and the uploaded wire colour list.',
+      desc: 'Detects wire regions using edge detection and saturation-based masking, then identifies each wire\'s colour via HSV range matching (primary) and K-means clustering (fallback). Validates against IEC 60445 and the uploaded wire colour list.',
       stats: [
         { val: '89%', label: 'COLOUR ACCURACY', cls: 'high' },
         { val: 'HSV', label: 'PRIMARY METHOD', cls: 'mid' },
@@ -676,7 +676,7 @@
         { key: 'PRIMARY', val: 'HSV inRange mask (per-colour bounds)' },
         { key: 'FALLBACK', val: 'K-Means clustering (k=3) on BGR' },
         { key: 'COLOURS', val: 'Red, Blue, Green, Yellow, Black, White, Brown, Orange, Grey' },
-        { key: 'STANDARD', val: 'IEC 60446 wire colour coding' }
+        { key: 'STANDARD', val: 'IEC 60445 wire colour identification' }
       ],
       params: [
         { name: 'k_clusters', val: '3' },
@@ -686,33 +686,33 @@
       ]
     },
     yolo: {
-      title: 'YOLO Detection',
-      tag: 'YOLOv11 + 45 Classes',
+      title: 'Component Detection',
+      tag: 'ROUND 2',
       icon: '<svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg>',
-      desc: 'Real-time object detection using YOLOv11 trained on the LibreYOLO/circuit-elements dataset. Identifies 45 classes of electrical components (breakers, relays, PLCs, contactors, etc.) with bounding box localisation and per-class confidence scores.',
+      desc: 'Planned for Round 2: YOLOv8 → ONNX Runtime for automated component localisation. The training pipeline and dataset (LibreYOLO/circuit-elements, CC BY 4.0) are prepared; inference is not yet integrated into the inspection flow.',
       stats: [
-        { val: '772', label: 'TRAINING IMAGES', cls: 'high' },
-        { val: '45', label: 'COMPONENT CLASSES', cls: 'mid' },
-        { val: 'v11', label: 'YOLO VERSION', cls: 'accent' }
+        { val: 'R2', label: 'TARGET ROUND', cls: 'high' },
+        { val: 'ONNX', label: 'RUNTIME', cls: 'mid' },
+        { val: 'YOLOv8', label: 'ARCHITECTURE', cls: 'accent' }
       ],
       pipeline: [
-        { num: '01', name: 'Resize', detail: '640×640 input' },
-        { num: '02', name: 'Backbone', detail: 'CSPDarknet' },
-        { num: '03', name: 'Neck', detail: 'PANet FPN' },
-        { num: '04', name: 'Head', detail: 'Decoupled detect' },
+        { num: '01', name: 'Train', detail: 'YOLOv8 on dataset' },
+        { num: '02', name: 'Export', detail: 'ONNX format' },
+        { num: '03', name: 'Resize', detail: '640×640 input' },
+        { num: '04', name: 'Detect', detail: 'Component boxes' },
         { num: '05', name: 'NMS', detail: 'Filter overlaps' }
       ],
       model: [
-        { key: 'ARCHITECTURE', val: 'YOLOv11n (nano variant)' },
+        { key: 'ARCHITECTURE', val: 'YOLOv8 → ONNX Runtime' },
         { key: 'DATASET', val: 'LibreYOLO/circuit-elements (CC BY 4.0)' },
-        { key: 'IMAGES', val: '772 annotated (YOLO format)' },
-        { key: 'FRAMEWORK', val: 'Ultralytics (torch backend)' }
+        { key: 'STATUS', val: 'Training pipeline ready, not yet integrated' },
+        { key: 'FRAMEWORK', val: 'Ultralytics + ONNX Runtime (Round 2)' }
       ],
       params: [
         { name: 'input_size', val: '640×640' },
         { name: 'conf_threshold', val: '0.25' },
         { name: 'iou_threshold', val: '0.45' },
-        { name: 'epochs', val: '50' }
+        { name: 'status', val: 'Planned' }
       ]
     }
   };
@@ -768,7 +768,7 @@
       title: 'ORB / SIFT',
       tag: 'Feature Detection',
       icon: '<svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4"/></svg>',
-      desc: 'ORB (Oriented FAST and Rotated BRIEF) provides real-time binary keypoint descriptors at ~1500 features per frame. SIFT (Scale-Invariant Feature Transform) adds 128-dimensional floating-point descriptors for sub-pixel accuracy when ORB alone is insufficient. Together they form a robust dual-descriptor pipeline for device presence verification.',
+      desc: 'ORB (Oriented FAST and Rotated BRIEF) provides fast binary keypoint descriptors at ~1500 features per frame. SIFT (Scale-Invariant Feature Transform) adds 128-dimensional floating-point descriptors for sub-pixel accuracy when ORB alone is insufficient. Together they form a robust dual-descriptor pipeline for device presence verification.',
       stats: [
         { val: '~1500', label: 'KEYPOINTS', cls: 'high' },
         { val: '128-D', label: 'SIFT DESCRIPTOR', cls: 'mid' },
@@ -824,34 +824,34 @@
         { name: 'languages', val: '[\"en\"]' }
       ]
     },
-    yolov11: {
-      title: 'YOLOv11',
-      tag: 'Object Detection',
-      icon: '<svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg>',
-      desc: 'YOLOv11 (You Only Look Once, version 11) is a single-shot real-time object detector. Trained on the LibreYOLO/circuit-elements dataset (772 annotated images, CC BY 4.0 license) covering 45 classes of electrical components found in industrial cabinets — breakers, contactors, relays, PLCs, fuses, terminals, and more.',
+    fastapi: {
+      title: 'FastAPI',
+      tag: 'Backend Framework',
+      icon: '<svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="4" y="4" width="16" height="16" rx="2"/><rect x="9" y="9" width="6" height="6"/></svg>',
+      desc: 'FastAPI is the async Python web framework serving the CabinetSight inspection API. It handles multi-file uploads (photo, drawing, wire list, label list), dispatches checks to the CV pipeline, and returns structured JSON results with Pydantic-validated schemas. Uvicorn serves the frontend and API on a single port.',
       stats: [
-        { val: '772', label: 'TRAINING IMAGES', cls: 'high' },
-        { val: '45', label: 'CLASSES', cls: 'mid' },
-        { val: 'nano', label: 'MODEL VARIANT', cls: 'accent' }
+        { val: 'async', label: 'I/O MODEL', cls: 'high' },
+        { val: 'JSON', label: 'RESPONSE FORMAT', cls: 'mid' },
+        { val: ':8000', label: 'DEFAULT PORT', cls: 'accent' }
       ],
       pipeline: [
-        { num: '01', name: 'Resize', detail: '640×640 letterbox' },
-        { num: '02', name: 'Backbone', detail: 'CSPDarknet53' },
-        { num: '03', name: 'Neck', detail: 'PANet + FPN' },
-        { num: '04', name: 'Head', detail: 'Decoupled detect' },
-        { num: '05', name: 'NMS', detail: 'IoU 0.45 filter' }
+        { num: '01', name: 'Upload', detail: 'Multipart form' },
+        { num: '02', name: 'Validate', detail: 'Pydantic schemas' },
+        { num: '03', name: 'Dispatch', detail: 'CV pipeline' },
+        { num: '04', name: 'Collect', detail: 'CheckResult list' },
+        { num: '05', name: 'Respond', detail: 'JSON + evidence' }
       ],
       model: [
-        { key: 'ARCHITECTURE', val: 'YOLOv11n (nano) — CSPDarknet + PANet + decoupled head' },
-        { key: 'DATASET', val: 'LibreYOLO/circuit-elements (HuggingFace, CC BY 4.0)' },
-        { key: 'CLASSES', val: 'breaker, contactor, relay, PLC, fuse, terminal, transformer…' },
-        { key: 'FRAMEWORK', val: 'Ultralytics + PyTorch (CUDA / CPU)' }
+        { key: 'FRAMEWORK', val: 'FastAPI 0.135 + Uvicorn' },
+        { key: 'VALIDATION', val: 'Pydantic v2 (CheckResult, Verdict, InspectionResponse)' },
+        { key: 'ENDPOINTS', val: '/inspect, /inspect/demo, /health' },
+        { key: 'STATIC', val: 'Serves index.html + src/ + assets/ from root' }
       ],
       params: [
-        { name: 'input_size', val: '640×640' },
-        { name: 'conf_thresh', val: '0.25' },
-        { name: 'iou_thresh', val: '0.45' },
-        { name: 'epochs', val: '50' }
+        { name: 'host', val: '0.0.0.0' },
+        { name: 'port', val: '8000' },
+        { name: 'workers', val: '1' },
+        { name: 'timeout', val: '120s' }
       ]
     },
     opencv: {

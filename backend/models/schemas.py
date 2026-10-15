@@ -25,7 +25,7 @@ class CheckResult(BaseModel):
     expected: str
     found: str
     status: Verdict
-    confidence: float = Field(ge=0.0, le=1.0)
+    confidence: Optional[float] = Field(default=None, ge=0.0, le=1.0)
     box: Optional[list[float]] = Field(default=None, description="[x,y,w,h] percentages")
     detail: Optional[str] = None
     suggestion: Optional[str] = None

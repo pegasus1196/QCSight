@@ -420,6 +420,7 @@ td .secondary-text { display: block; font-size: 10px; color: var(--text-3); marg
 .tech-card h3 { font-size: 18px; font-weight: 700; margin-bottom: 10px }
 .tech-card p { font-size: 13px; color: var(--text-2); line-height: 1.7; margin-bottom: 16px }
 .tech-tags { display: flex; flex-wrap: wrap; gap: 6px }
+.tech-round2 { text-align: center; font-size: 13px; color: var(--text-3); margin-top: 24px; padding-top: 16px; border-top: 1px solid var(--border) }
 .tech-tags span { font-family: var(--mono); font-size: 10px; padding: 4px 10px; border-radius: 6px; background: var(--surface-2); color: var(--text-3); border: 1px solid var(--border) }
 
 /* ═══ PROCESS ═══ */

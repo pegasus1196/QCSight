@@ -210,9 +210,10 @@ class CabinetInspector:
                     else:
                         results.append(CheckResult(
                             id=f"presence-{len(results)}", check="Device presence",
-                            name=device_name, expected="Installed", found="Missing",
-                            status=Verdict.FAIL, confidence=0.95,
-                            detail=f"Device {device_id} was not found in the cabinet photo.",
+                            name=device_name, expected="Installed",
+                            found="Not readable – retake a close-up",
+                            status=Verdict.UNREADABLE, confidence=None,
+                            detail=f"Device {device_id} could not be located in the cabinet photo. The item may be present but not visible — retake with better angle or lighting.",
                         ))
 
         return results
@@ -288,32 +289,32 @@ class CabinetInspector:
                     round(bx / w * 100, 1), round(by / h * 100, 1),
                     round(bw / w * 100, 1), round(bh / h * 100, 1),
                 ]
+                if result_ocr.confidence < 0.4:
+                    verdict = Verdict.UNREADABLE
+                    found_text = f"Read: '{result_ocr.text}' (low confidence)"
+                    detail = f"OCR read '{result_ocr.text}' but confidence is too low ({result_ocr.confidence:.0%}) to confirm a mismatch."
+                else:
+                    verdict = Verdict.FAIL
+                    found_text = f"Read: '{result_ocr.text}' (mismatch)"
+                    detail = f"Expected label '{label}' but OCR read '{result_ocr.text}'."
                 results.append(CheckResult(
                     id=f"labels-{len(results)}", check="Device labels",
                     name=f"{exp.get('device', 'Device')} label", expected=label,
-                    found=f"Read: '{result_ocr.text}' (mismatch)",
-                    status=Verdict.FAIL, confidence=result_ocr.confidence, box=box,
-                    detail=f"Expected label '{label}' but OCR read '{result_ocr.text}'.",
+                    found=found_text,
+                    status=verdict, confidence=result_ocr.confidence, box=box,
+                    detail=detail,
                 ))
             else:
                 has_nearby_text = any(
                     self.ocr.fuzzy_match(ocr_r.text, label, threshold=40)[1] >= 30
                     for ocr_r in ocr_results
                 )
-                if has_nearby_text:
-                    verdict = Verdict.UNREADABLE
-                    conf = 0.45
-                    detail = f"A possible match for '{label}' was detected but confidence is too low to confirm."
-                else:
-                    verdict = Verdict.FAIL
-                    conf = 0.85
-                    detail = f"No readable label found for expected '{label}'."
                 results.append(CheckResult(
                     id=f"labels-{len(results)}", check="Device labels",
                     name=f"{exp.get('device', 'Device')} label", expected=label,
-                    found="Label unclear" if verdict == Verdict.UNREADABLE else "No label detected",
-                    status=verdict, confidence=conf,
-                    detail=detail,
+                    found="Not readable – retake a close-up",
+                    status=Verdict.UNREADABLE, confidence=None,
+                    detail=f"No readable label found for expected '{label}'. Retake a close-up with better lighting.",
                 ))
 
         return results
@@ -370,9 +371,9 @@ class CabinetInspector:
                 results.append(CheckResult(
                     id=f"ferrules-{len(results)}", check="Wire ferrules",
                     name=f"Ferrule on {ferrule_id}", expected="Ferrule fitted",
-                    found="No ferrule detected", status=Verdict.FAIL,
-                    confidence=0.88,
-                    detail=f"No ferrule marking found for {ferrule_id}.",
+                    found="Not readable – retake a close-up",
+                    status=Verdict.UNREADABLE, confidence=None,
+                    detail=f"No ferrule marking found for {ferrule_id}. The ferrule may be present but not readable — retake a close-up.",
                 ))
 
         return results
@@ -576,7 +577,7 @@ class CabinetInspector:
         if "colour" in check:
             return (
                 f"Wire colour mismatch: expected {expected} but found {found}. "
-                f"Verify the wire against the IEC 60446 colour code and the wire list. "
+                f"Verify the wire against the IEC 60445 colour code and the wire list. "
                 f"If incorrect, replace the wire with the correct colour and re-terminate."
             )
 

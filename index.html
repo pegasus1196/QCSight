@@ -53,7 +53,7 @@
         PROJECT EAGLE EYE · EMERSON
       </div>
       <h1>Intelligent Cabinet<br><span class="gradient-text">Quality Inspection</span></h1>
-      <p class="hero-sub">AI-powered visual inspection using ORB/SIFT feature matching, deep learning OCR, and YOLO object detection. Precision-first — never a false fail.</p>
+      <p class="hero-sub">Computer vision inspection using ORB/SIFT feature matching and OCR label reading. Precision-first: unsure → UNREADABLE, never a false FAIL.</p>
       <div class="hero-ctas">
         <a href="#workspace" class="btn-primary btn-lg">
           <span>Start Inspection</span>
@@ -71,11 +71,11 @@
         </div>
         <div class="trust-item">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
-          <span>IEC 60446 Compliant</span>
+          <span>Wire colours per IEC 60445</span>
         </div>
         <div class="trust-item">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
-          <span>Real-time Analysis</span>
+          <span>Zero Telemetry</span>
         </div>
       </div>
     </div>
@@ -128,24 +128,24 @@
 <!-- ═══ STATS ═══ -->
 <section class="stats" id="stats">
   <div class="stats-container">
-    <div class="stat-card" data-target="1308" data-suffix="+">
+    <div class="stat-card" data-target="4">
       <strong class="stat-number">0</strong>
-      <span>ORB Keypoints</span>
+      <span>Inputs</span>
     </div>
     <div class="stat-divider"></div>
-    <div class="stat-card" data-target="45">
+    <div class="stat-card" data-target="5">
       <strong class="stat-number">0</strong>
-      <span>Component Classes</span>
+      <span>Checks</span>
     </div>
     <div class="stat-divider"></div>
-    <div class="stat-card" data-target="772">
+    <div class="stat-card" data-target="3">
       <strong class="stat-number">0</strong>
-      <span>Training Images</span>
+      <span>Verdicts</span>
     </div>
     <div class="stat-divider"></div>
-    <div class="stat-card" data-target="5" data-suffix="">
+    <div class="stat-card" data-target="0" data-suffix=" (target)">
       <strong class="stat-number">0</strong>
-      <span>Check Categories</span>
+      <span>False Alarms</span>
     </div>
   </div>
 </section>
@@ -156,7 +156,7 @@
     <div class="section-header">
       <span class="section-badge">CAPABILITIES</span>
       <h2>Comprehensive Quality Control</h2>
-      <p>Six inspection modules powered by computer vision and deep learning</p>
+      <p>Five inspection checks plus a planned detection module</p>
     </div>
     <div class="features-grid">
       <div class="feature-card" data-feature="presence">
@@ -196,16 +196,16 @@
           <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="13.5" cy="6.5" r="2.5"/><circle cx="6" cy="12" r="2.5"/><circle cx="18" cy="18" r="2.5"/><path d="M15.5 8.5L17 14.5"/><path d="M8.5 12.5L15.5 17"/></svg>
         </div>
         <h3>Wire Colour</h3>
-        <p>HSV colour space analysis with K-means clustering validates wire colours against the IEC 60446 standard.</p>
+        <p>HSV colour space analysis with K-means clustering validates wire colours against IEC 60445.</p>
         <span class="feature-tag">K-Means + HSV</span>
       </div>
       <div class="feature-card" data-feature="yolo">
         <div class="feature-icon" style="--accent: #f472b6">
           <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg>
         </div>
-        <h3>YOLO Detection</h3>
-        <p>YOLOv11 object detection trained on 772 circuit element images across 45 component classes.</p>
-        <span class="feature-tag">YOLOv11 + 45 Classes</span>
+        <h3>Component Detection</h3>
+        <p>Planned for Round 2: YOLOv8 → ONNX Runtime for automated component localisation across electrical cabinets.</p>
+        <span class="feature-tag">ROUND 2</span>
       </div>
     </div>
 
@@ -388,7 +388,7 @@
               <div class="pipeline-item"><span class="pip-dot ready"></span><span>ORB Feature Detection</span><span class="pip-status">Ready</span></div>
               <div class="pipeline-item"><span class="pip-dot ready"></span><span>SIFT Descriptor Matching</span><span class="pip-status">Ready</span></div>
               <div class="pipeline-item"><span class="pip-dot ready"></span><span>EasyOCR Text Recognition</span><span class="pip-status">Ready</span></div>
-              <div class="pipeline-item"><span class="pip-dot ready"></span><span>YOLO Component Detection</span><span class="pip-status">Ready</span></div>
+              <div class="pipeline-item"><span class="pip-dot ready"></span><span>Colour Space Analysis</span><span class="pip-status">Ready</span></div>
             </div>
           </div>
         </div>
@@ -476,7 +476,7 @@
             <div class="ai-suggestion hidden" id="aiSuggestion">
               <div class="ai-header">
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L9 9H2l6 4.5L5.5 21 12 16.5 18.5 21 16 13.5 22 9h-7z"/></svg>
-                <span>AI CORRECTIVE ACTION</span>
+                <span>SUGGESTED FIX</span>
               </div>
               <p class="ai-body" id="aiSuggestionText"></p>
               <div class="ai-footer">
@@ -517,8 +517,8 @@
   <div class="section-container">
     <div class="section-header">
       <span class="section-badge">UNDER THE HOOD</span>
-      <h2>Technology Stack</h2>
-      <p>Built on proven computer vision and deep learning frameworks</p>
+      <h2>Current Prototype Stack</h2>
+      <p>Built on proven computer vision frameworks</p>
     </div>
     <div class="tech-grid">
       <div class="tech-card" data-tech="orb_sift">
@@ -526,7 +526,7 @@
           <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
         </div>
         <h3>ORB / SIFT</h3>
-        <p>Oriented FAST and Rotated BRIEF for real-time keypoint detection. Scale-Invariant Feature Transform for robust descriptor matching with BFMatcher and Lowe's ratio test.</p>
+        <p>Oriented FAST and Rotated BRIEF for fast keypoint detection. Scale-Invariant Feature Transform for robust descriptor matching with BFMatcher and Lowe's ratio test.</p>
         <div class="tech-tags">
           <span>Feature Detection</span><span>Keypoint Matching</span><span>RANSAC</span>
         </div>
@@ -541,14 +541,14 @@
           <span>CRAFT + CRNN</span><span>CLAHE</span><span>RapidFuzz</span>
         </div>
       </div>
-      <div class="tech-card" data-tech="yolov11">
+      <div class="tech-card" data-tech="fastapi">
         <div class="tech-icon">
-          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg>
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="4" y="4" width="16" height="16" rx="2"/><rect x="9" y="9" width="6" height="6"/></svg>
         </div>
-        <h3>YOLOv11</h3>
-        <p>State-of-the-art object detection trained on 772 circuit element images. 45 component classes including breakers, capacitors, transformers, and more.</p>
+        <h3>FastAPI</h3>
+        <p>Modern Python web framework serving the inspection API. Handles file uploads, runs the CV pipeline, and returns structured JSON results with Pydantic validation.</p>
         <div class="tech-tags">
-          <span>Object Detection</span><span>45 Classes</span><span>CC BY 4.0</span>
+          <span>REST API</span><span>Pydantic</span><span>Uvicorn</span>
         </div>
       </div>
       <div class="tech-card" data-tech="opencv">
@@ -562,6 +562,7 @@
         </div>
       </div>
     </div>
+    <p class="tech-round2">Round 2 build: React + TypeScript · PaddleOCR · YOLOv8 → ONNX · PostgreSQL · Docker + Nginx · DevSecOps CI</p>
   </div>
 </section>
 
@@ -598,7 +599,7 @@
         </div>
         <div class="step-num">03</div>
         <h3>Analyze</h3>
-        <p>ORB/SIFT, OCR, HSV, and YOLO pipelines process your images in seconds with detailed evidence per check.</p>
+        <p>ORB/SIFT, OCR, and HSV colour pipelines process your images with detailed evidence per check item.</p>
       </div>
       <div class="process-connector"></div>
       <div class="process-step" data-step="4">
@@ -606,8 +607,8 @@
           <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2a7 7 0 0 0-7 7c0 2.38 1.19 4.47 3 5.74V17a2 2 0 0 0 2 2h4a2 2 0 0 0 2-2v-2.26c1.81-1.27 3-3.36 3-5.74a7 7 0 0 0-7-7z"/><line x1="9" y1="21" x2="15" y2="21"/></svg>
         </div>
         <div class="step-num">04</div>
-        <h3>AI Suggest</h3>
-        <p>Every FAIL gets a step-by-step AI corrective action — which tool, where to fix, and how to verify the repair.</p>
+        <h3>Suggested Fix</h3>
+        <p>Every FAIL gets a step-by-step corrective suggestion — which tool, where to fix, and how to verify the repair.</p>
       </div>
       <div class="process-connector"></div>
       <div class="process-step" data-step="5">
@@ -701,8 +702,8 @@
           </div>
           <div class="arch-node accent">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg>
-            <span>YOLOv11</span>
-            <small>Object detection</small>
+            <span>Component Detection</span>
+            <small>Round 2</small>
           </div>
           <div class="arch-node accent">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="13.5" cy="6.5" r="2.5"/><circle cx="6" cy="12" r="2.5"/><path d="M8.5 12.5L15.5 17"/></svg>
@@ -726,11 +727,11 @@
           </div>
           <div class="arch-node success">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2a7 7 0 0 0-7 7c0 2.38 1.19 4.47 3 5.74V17a2 2 0 0 0 2 2h4a2 2 0 0 0 2-2v-2.26c1.81-1.27 3-3.36 3-5.74a7 7 0 0 0-7-7z"/><line x1="9" y1="21" x2="15" y2="21"/></svg>
-            <span>AI Suggestions</span>
+            <span>Suggested Fixes</span>
           </div>
           <div class="arch-node success">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
-            <span>PDF / CSV Report</span>
+            <span>CSV / Print Report</span>
           </div>
           <div class="arch-node success">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg>
@@ -774,14 +775,14 @@
         <h4>Technology</h4>
         <a href="#technology">ORB / SIFT</a>
         <a href="#technology">EasyOCR</a>
-        <a href="#technology">YOLOv11</a>
+        <a href="#technology">FastAPI</a>
         <a href="#technology">OpenCV 5</a>
       </div>
       <div class="footer-col">
         <h4>Project</h4>
         <span>Emerson Problem Statement #03</span>
         <span>VIT Code Apex 3.0</span>
-        <span>Python 3.14 + FastAPI</span>
+        <span>Python + FastAPI</span>
         <span>100% Offline Capable</span>
       </div>
     </div>

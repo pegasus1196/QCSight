@@ -8,7 +8,7 @@ from dataclasses import dataclass
 from sklearn.cluster import KMeans
 
 
-# IEC 60446 standard wire colors for industrial cabinets
+# IEC 60445 standard wire colors for industrial cabinets
 WIRE_COLORS = {
     "red":    {"hsv_low": (0, 100, 100),   "hsv_high": (10, 255, 255),  "hsv_low2": (170, 100, 100), "hsv_high2": (180, 255, 255)},
     "blue":   {"hsv_low": (100, 100, 80),  "hsv_high": (130, 255, 255)},

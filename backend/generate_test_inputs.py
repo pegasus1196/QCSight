@@ -136,7 +136,7 @@ def create_ga_drawing():
     c.setFont("Helvetica", 7)
     c.setFillColor(HexColor("#999999"))
     c.drawString(cabinet_x, cabinet_y - 10 * mm,
-                 "NOTE: All dimensions in mm. Wire colors per IEC 60446. Earth: Green/Yellow. Neutral: Blue. L+: Red/Brown.")
+                 "NOTE: All dimensions in mm. Wire colors per IEC 60445. Earth: Green/Yellow. Neutral: Blue. L+: Red/Brown.")
 
     c.setStrokeColor(HexColor("#333333"))
     c.setLineWidth(1.5)
