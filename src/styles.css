@@ -206,6 +206,19 @@ button, input, select { font-family: inherit }
   100% { top: 92%; opacity: 0 }
 }
 
+/* ── ORBIT WORKFLOW ── */
+.orbit-ring { position: absolute; width: 400px; height: 400px; top: 50%; left: 50%; transform: translate(-50%, -50%); pointer-events: none; z-index: 3 }
+.orbit-path { position: absolute; inset: 0; width: 100%; height: 100%; color: var(--clr-primary) }
+.orbit-node { position: absolute; transform: translate(-50%, -50%); display: flex; flex-direction: column; align-items: center; gap: 4px; pointer-events: auto; opacity: 0; animation: orbit-pop 0.5s ease forwards }
+@keyframes orbit-pop { from { opacity: 0; transform: translate(-50%, -50%) scale(0.4) } to { opacity: 1; transform: translate(-50%, -50%) scale(1) } }
+.orbit-icon { width: 36px; height: 36px; border-radius: 50%; background: var(--surface); border: 1.5px solid var(--border); display: grid; place-items: center; color: var(--clr-primary); transition: all 0.3s; box-shadow: 0 2px 12px rgba(0,0,0,0.15) }
+.orbit-icon.accent { border-color: rgba(168,85,247,0.3); color: var(--clr-accent) }
+.orbit-icon.warn { border-color: rgba(251,191,36,0.3); color: var(--clr-warning) }
+.orbit-icon.success { border-color: rgba(34,197,94,0.3); color: var(--clr-success) }
+.orbit-node:hover .orbit-icon { transform: scale(1.2); box-shadow: 0 4px 20px rgba(56,189,248,0.25) }
+.orbit-node span { font-size: 10px; font-weight: 600; letter-spacing: 0.3px; color: var(--text-2); white-space: nowrap; text-shadow: 0 1px 4px var(--bg) }
+.orbit-node::before { content: attr(data-orbit); display: none }
+
 /* ═══ STATS ═══ */
 .stats { padding: 40px 0; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); background: var(--surface) }
 .stats-container { max-width: 1000px; margin: 0 auto; padding: 0 24px; display: flex; align-items: center; justify-content: center; gap: 0 }
@@ -561,6 +574,8 @@ td .secondary-text { display: block; font-size: 10px; color: var(--text-3); marg
   .hero-container { grid-template-columns: 1fr; text-align: center }
   .hero-content { order: 2 }
   .hero-visual { order: 1; min-height: 280px }
+  .orbit-ring { width: 340px; height: 340px }
+  .orbit-path circle { r: 148 }
   .hero-sub { margin: 0 auto 32px }
   .hero-ctas { justify-content: center }
   .hero-trust { justify-content: center }
@@ -581,6 +596,8 @@ td .secondary-text { display: block; font-size: 10px; color: var(--text-3); marg
   .hero h1 { font-size: 32px }
   .hero-visual { min-height: 220px }
   .cabinet-scene { transform: scale(0.75) }
+  .orbit-ring { width: 300px; height: 300px }
+  .orbit-node span { font-size: 9px }
   .stats-container { flex-wrap: wrap; gap: 0 }
   .stat-card { min-width: 50% }
   .stat-divider { display: none }
@@ -605,5 +622,6 @@ td .secondary-text { display: block; font-size: 10px; color: var(--text-3); marg
   .toast { max-width: calc(100vw - 48px) }
   .toast-container { left: 24px }
   .cabinet-scene { transform: scale(0.6) }
+  .orbit-ring { display: none }
   .stat-number { font-size: 28px }
 }

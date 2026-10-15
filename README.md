@@ -92,8 +92,8 @@ UI only (no backend): open `index.html` in a browser and choose **Try demo data*
 
 - Prototype results in the UI are demo data unless the backend is running.
 - The YOLO model is not yet trained on real Emerson cabinet photos (public dataset only).
-- Low-confidence OCR reads are now marked UNREADABLE, not FAIL, enforcing the no-false-alarm rule.
-- Photo-evidence markers are not yet scaled to the rendered image; fixed in the React build.
+- Low-confidence OCR reads are marked UNREADABLE, not FAIL, enforcing the no-false-alarm rule (tested with pytest).
+- Re-check in demo mode simulates all items being fixed; with backend running, real CV re-analysis is performed.
 
 ## Privacy
 

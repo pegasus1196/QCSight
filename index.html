@@ -27,8 +27,6 @@
       <a href="#features" class="nav-link">Features</a>
       <a href="#workspace" class="nav-link">Workspace</a>
       <a href="#technology" class="nav-link">Technology</a>
-      <a href="#process" class="nav-link">Process</a>
-      <a href="#architecture" class="nav-link">Architecture</a>
     </div>
     <div class="nav-actions">
       <button class="theme-btn" id="themeToggle" title="Toggle theme">
@@ -119,6 +117,40 @@
             <div class="cab-face cab-bottom"></div>
             <div class="cab-face cab-back"></div>
           </div>
+        </div>
+      </div>
+      <!-- Orbital workflow -->
+      <div class="orbit-ring" id="orbitRing">
+        <svg class="orbit-path" viewBox="0 0 400 400"><circle cx="200" cy="200" r="175" fill="none" stroke="currentColor" stroke-width="1" stroke-dasharray="6 4" opacity="0.15"/></svg>
+        <div class="orbit-node" data-orbit="0">
+          <div class="orbit-icon">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+          </div>
+          <span>Upload</span>
+        </div>
+        <div class="orbit-node" data-orbit="1">
+          <div class="orbit-icon">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06"/></svg>
+          </div>
+          <span>Configure</span>
+        </div>
+        <div class="orbit-node" data-orbit="2">
+          <div class="orbit-icon accent">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+          </div>
+          <span>Analyze</span>
+        </div>
+        <div class="orbit-node" data-orbit="3">
+          <div class="orbit-icon warn">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2a7 7 0 0 0-7 7c0 2.38 1.19 4.47 3 5.74V17a2 2 0 0 0 2 2h4a2 2 0 0 0 2-2v-2.26c1.81-1.27 3-3.36 3-5.74a7 7 0 0 0-7-7z"/><line x1="9" y1="21" x2="15" y2="21"/></svg>
+          </div>
+          <span>Fix</span>
+        </div>
+        <div class="orbit-node" data-orbit="4">
+          <div class="orbit-icon success">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+          </div>
+          <span>Re-Check</span>
         </div>
       </div>
     </div>
@@ -566,192 +598,6 @@
   </div>
 </section>
 
-<!-- ═══ PROCESS ═══ -->
-<section class="process" id="process">
-  <div class="section-container">
-    <div class="section-header">
-      <span class="section-badge">WORKFLOW</span>
-      <h2>How It Works</h2>
-      <p>Five-step closed-loop pipeline from upload to verified fix</p>
-    </div>
-    <div class="process-timeline" id="processTimeline">
-      <div class="process-step" data-step="1">
-        <div class="step-icon-wrap">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
-        </div>
-        <div class="step-num">01</div>
-        <h3>Upload</h3>
-        <p>Add your cabinet photo, GA drawing, wire list, and label list. All files stay on your device — zero cloud dependency.</p>
-      </div>
-      <div class="process-connector"></div>
-      <div class="process-step" data-step="2">
-        <div class="step-icon-wrap">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82V15"/></svg>
-        </div>
-        <div class="step-num">02</div>
-        <h3>Configure</h3>
-        <p>Select which checks to run and set your confidence threshold for precision-first analysis.</p>
-      </div>
-      <div class="process-connector"></div>
-      <div class="process-step" data-step="3">
-        <div class="step-icon-wrap accent">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/><line x1="11" y1="8" x2="11" y2="14"/><line x1="8" y1="11" x2="14" y2="11"/></svg>
-        </div>
-        <div class="step-num">03</div>
-        <h3>Analyze</h3>
-        <p>ORB/SIFT, OCR, and HSV colour pipelines process your images with detailed evidence per check item.</p>
-      </div>
-      <div class="process-connector"></div>
-      <div class="process-step" data-step="4">
-        <div class="step-icon-wrap suggest">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2a7 7 0 0 0-7 7c0 2.38 1.19 4.47 3 5.74V17a2 2 0 0 0 2 2h4a2 2 0 0 0 2-2v-2.26c1.81-1.27 3-3.36 3-5.74a7 7 0 0 0-7-7z"/><line x1="9" y1="21" x2="15" y2="21"/></svg>
-        </div>
-        <div class="step-num">04</div>
-        <h3>Suggested Fix</h3>
-        <p>Every FAIL gets a step-by-step corrective suggestion — which tool, where to fix, and how to verify the repair.</p>
-      </div>
-      <div class="process-connector"></div>
-      <div class="process-step" data-step="5">
-        <div class="step-icon-wrap success">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
-        </div>
-        <div class="step-num">05</div>
-        <h3>Re-Check</h3>
-        <p>Fix the issue, re-photograph, and re-run. Closed-loop verification marks resolved items CLOSED automatically.</p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ═══ ARCHITECTURE ═══ -->
-<section class="architecture" id="architecture">
-  <div class="section-container">
-    <div class="section-header">
-      <span class="section-badge">SYSTEM DESIGN</span>
-      <h2>System Architecture</h2>
-      <p>End-to-end inspection pipeline running entirely on-device</p>
-    </div>
-    <div class="arch-diagram" id="archDiagram">
-      <!-- Input Layer -->
-      <div class="arch-layer" data-layer="input">
-        <div class="arch-layer-label">INPUT</div>
-        <div class="arch-nodes">
-          <div class="arch-node">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
-            <span>Cabinet Photo</span>
-          </div>
-          <div class="arch-node">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
-            <span>GA Drawing</span>
-          </div>
-          <div class="arch-node">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/><polyline points="13 2 13 9 20 9"/></svg>
-            <span>Wire List (.xlsx)</span>
-          </div>
-          <div class="arch-node">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
-            <span>Label List (.xlsx)</span>
-          </div>
-        </div>
-      </div>
-
-      <div class="arch-flow-arrow">
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><polyline points="19 12 12 19 5 12"/></svg>
-      </div>
-
-      <!-- Processing Layer -->
-      <div class="arch-layer" data-layer="process">
-        <div class="arch-layer-label">PROCESSING</div>
-        <div class="arch-nodes">
-          <div class="arch-node primary">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="4" width="16" height="16" rx="2"/><rect x="9" y="9" width="6" height="6"/></svg>
-            <span>FastAPI Server</span>
-          </div>
-          <div class="arch-node primary">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06"/></svg>
-            <span>CV Inspector</span>
-          </div>
-          <div class="arch-node primary">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 7V4h16v3M9 20h6M12 4v16"/></svg>
-            <span>OCR Reader</span>
-          </div>
-          <div class="arch-node primary">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="13.5" cy="6.5" r="2.5"/><circle cx="6" cy="12" r="2.5"/><circle cx="18" cy="18" r="2.5"/></svg>
-            <span>Color Analyzer</span>
-          </div>
-        </div>
-      </div>
-
-      <div class="arch-flow-arrow">
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><polyline points="19 12 12 19 5 12"/></svg>
-      </div>
-
-      <!-- AI Layer -->
-      <div class="arch-layer" data-layer="ai">
-        <div class="arch-layer-label">AI MODELS</div>
-        <div class="arch-nodes">
-          <div class="arch-node accent">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>
-            <span>ORB + SIFT</span>
-            <small>Keypoint matching</small>
-          </div>
-          <div class="arch-node accent">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 7V4h16v3M9 20h6M12 4v16"/></svg>
-            <span>CRAFT + CRNN</span>
-            <small>Text recognition</small>
-          </div>
-          <div class="arch-node accent">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg>
-            <span>Component Detection</span>
-            <small>Round 2</small>
-          </div>
-          <div class="arch-node accent">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="13.5" cy="6.5" r="2.5"/><circle cx="6" cy="12" r="2.5"/><path d="M8.5 12.5L15.5 17"/></svg>
-            <span>K-Means + HSV</span>
-            <small>Color classification</small>
-          </div>
-        </div>
-      </div>
-
-      <div class="arch-flow-arrow">
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><polyline points="19 12 12 19 5 12"/></svg>
-      </div>
-
-      <!-- Output Layer -->
-      <div class="arch-layer" data-layer="output">
-        <div class="arch-layer-label">OUTPUT</div>
-        <div class="arch-nodes">
-          <div class="arch-node success">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
-            <span>QC Checklist</span>
-          </div>
-          <div class="arch-node success">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2a7 7 0 0 0-7 7c0 2.38 1.19 4.47 3 5.74V17a2 2 0 0 0 2 2h4a2 2 0 0 0 2-2v-2.26c1.81-1.27 3-3.36 3-5.74a7 7 0 0 0-7-7z"/><line x1="9" y1="21" x2="15" y2="21"/></svg>
-            <span>Suggested Fixes</span>
-          </div>
-          <div class="arch-node success">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
-            <span>CSV / Print Report</span>
-          </div>
-          <div class="arch-node success">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg>
-            <span>Re-Check Loop</span>
-          </div>
-        </div>
-      </div>
-
-      <!-- Closed loop arrow -->
-      <div class="arch-loop">
-        <svg width="100%" height="40" viewBox="0 0 600 40" preserveAspectRatio="none">
-          <path d="M500 5 Q580 5 580 20 Q580 35 500 35 L100 35 Q20 35 20 20 Q20 5 100 5" fill="none" stroke="currentColor" stroke-width="1.5" stroke-dasharray="6 4" opacity="0.4"/>
-          <polygon points="95,2 105,5 95,8" fill="currentColor" opacity="0.4"/>
-        </svg>
-        <span class="arch-loop-label">Closed-loop: FAIL &rarr; Fix &rarr; Re-check &rarr; CLOSED</span>
-      </div>
-    </div>
-  </div>
-</section>
-
 <!-- ═══ FOOTER ═══ -->
 <footer class="site-footer">
   <div class="footer-container">
@@ -768,8 +614,6 @@
         <a href="#features">Features</a>
         <a href="#workspace">Workspace</a>
         <a href="#technology">Technology</a>
-        <a href="#process">How It Works</a>
-        <a href="#architecture">Architecture</a>
       </div>
       <div class="footer-col">
         <h4>Technology</h4>

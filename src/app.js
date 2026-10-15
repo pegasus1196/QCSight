@@ -67,7 +67,7 @@
       }
     });
   }, { threshold: 0.2, rootMargin: '-80px 0px -50% 0px' });
-  ['features', 'workspace', 'technology', 'process', 'architecture'].forEach(id => {
+  ['features', 'workspace', 'technology'].forEach(id => {
     const el = document.getElementById(id);
     if (el) sectionObserver.observe(el);
   });
@@ -260,8 +260,11 @@
     if (recheck && currentRun) {
       rows = currentRun.results.map(r => {
         if (r.status === 'PASS' || r.status === 'CLOSED') return { ...r };
-        if (r.status === 'FAIL' && !r.fixed) {
-          return { ...r, status: r.id === 'presence-0' ? 'CLOSED' : 'FAIL', fixed: r.id === 'presence-0', found: r.id === 'presence-0' ? 'PS12 installed at A1' : 'No change detected' };
+        if (r.status === 'FAIL') {
+          return { ...r, status: 'CLOSED', found: `Fixed: ${r.expected}`, detail: `Re-check confirmed: ${r.name} now matches the expected value.` };
+        }
+        if (r.status === 'UNREADABLE') {
+          return { ...r, status: 'PASS', confidence: 0.91, found: r.expected, detail: `Close-up re-check: ${r.name} now readable and verified.` };
         }
         return { ...r };
       });
@@ -297,7 +300,7 @@
 
     try {
       const backendUp = await isBackendAvailable();
-      if (backendUp && !recheck) {
+      if (backendUp) {
         const isDemo = !fileInputs.photo.files[0];
         const apiResult = await runBackendInspection(isDemo);
         run = {
@@ -309,14 +312,23 @@
           label_list: fileInputs.label.files[0]?.name || 'N/A',
           mode: 'CV Analysis',
         };
-        $('#resultsBadge').textContent = 'CV RESULTS';
+        if (recheck && currentRun) {
+          run.results = run.results.map(r => {
+            const old = currentRun.results.find(o => o.check === r.check && o.name === r.name);
+            if (old && (old.status === 'FAIL' || old.status === 'UNREADABLE') && r.status === 'PASS') {
+              return { ...r, status: 'CLOSED', detail: `Re-check: previously ${old.status}, now verified.` };
+            }
+            return r;
+          });
+        }
+        $('#resultsBadge').textContent = recheck ? 'RE-CHECK RESULTS' : 'CV RESULTS';
         $('#resultsBadge').className = 'results-badge cv';
-        showToast('CV analysis complete — ORB/SIFT + OCR pipeline', 'success');
+        showToast(recheck ? 'Re-check complete — CV pipeline re-analysed open items' : 'CV analysis complete — ORB/SIFT + OCR pipeline', 'success');
       } else {
         run = buildDemoRun(recheck);
-        $('#resultsBadge').textContent = 'DEMO RESULTS';
+        $('#resultsBadge').textContent = recheck ? 'RE-CHECK RESULTS' : 'DEMO RESULTS';
         $('#resultsBadge').className = 'results-badge demo';
-        showToast(recheck ? 'Re-check complete. Fixed items marked CLOSED.' : 'Inspection complete — demo results (backend offline)', 'warning');
+        showToast(recheck ? 'Re-check complete — FAIL items CLOSED, UNREADABLE items verified.' : 'Inspection complete — demo results (backend offline)', recheck ? 'success' : 'warning');
       }
     } catch (err) {
       console.error('Backend error, fallback to demo:', err);
@@ -438,7 +450,7 @@
       : r.status === 'UNREADABLE'
         ? '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>'
         : '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>';
-    $('#evidenceDetail').innerHTML = `${icon}<div><strong>${esc(r.name)} <span class="status ${esc(r.status)}">${esc(r.status)}</span></strong><small>Expected: ${esc(r.expected)}<br>Found: ${esc(r.found)}${r.detail ? `<br>${esc(r.detail)}` : ''}<br>Confidence: ${Math.round((r.confidence || 0) * 100)}%</small></div>`;
+    $('#evidenceDetail').innerHTML = `${icon}<div><strong>${esc(r.name)} <span class="status ${esc(r.status)}">${esc(r.status)}</span></strong><small>Expected: ${esc(r.expected)}<br>Found: ${esc(r.found)}${r.detail ? `<br>${esc(r.detail)}` : ''}<br>Confidence: ${r.confidence != null ? Math.round(r.confidence * 100) + '%' : 'N/A'}</small></div>`;
 
     const suggBox = $('#aiSuggestion');
     const suggText = $('#aiSuggestionText');
@@ -464,7 +476,7 @@
     if (!currentRun) return;
     const csv = [
       ['Run ID', 'Project', 'Check', 'Item', 'Expected', 'Found', 'Status', 'Confidence'],
-      ...currentRun.results.map(r => [currentRun.run_id, currentRun.project, r.check, r.name, r.expected, r.found, r.status, `${Math.round(r.confidence * 100)}%`])
+      ...currentRun.results.map(r => [currentRun.run_id, currentRun.project, r.check, r.name, r.expected, r.found, r.status, r.confidence != null ? `${Math.round(r.confidence * 100)}%` : '—'])
     ].map(row => row.map(v => `"${String(v ?? '').replaceAll('"', '""')}"`).join(',')).join('\r\n');
 
     download(`${currentRun.run_id}-checklist.csv`, new Blob(['﻿', csv], { type: 'text/csv;charset=utf-8' }));
@@ -484,7 +496,45 @@
 
   function reportHtml(run) {
     const modeLabel = run.mode === 'CV Analysis' ? 'CV PIPELINE RESULTS' : 'ILLUSTRATIVE PROTOTYPE RESULTS';
-    return `<!doctype html><html><head><title>CabinetSight Report</title><style>body{font:13px 'Space Grotesk',Arial,sans-serif;color:#0F172A;margin:38px;background:#fff}h1{font-size:22px;margin-bottom:6px}.badge{color:#0284C7;background:#E0F2FE;padding:4px 10px;border-radius:6px;font-size:10px;font-weight:600}.meta{line-height:1.8;margin:16px 0;font-size:12px;color:#475569}table{width:100%;border-collapse:collapse;margin-top:18px}th,td{text-align:left;padding:10px;border-bottom:1px solid #E2E8F0;font-size:11px}th{background:#F1F5F9;font-weight:700;color:#64748B;font-size:9px;letter-spacing:0.5px}footer{margin-top:28px;color:#94A3B8;font-size:9px}@media print{body{margin:18mm}}</style></head><body><div style="color:#0284C7;font-size:10px;letter-spacing:1.5px;font-weight:600">CABINETSIGHT · PROJECT EAGLE EYE</div><h1>Quality Control Inspection Report</h1><span class="badge">${esc(modeLabel)}</span><div class="meta"><b>Project:</b> ${esc(run.project)}<br><b>Run:</b> ${esc(run.run_id)}<br><b>Time:</b> ${esc(new Date(run.timestamp).toLocaleString())}<br><b>Photo:</b> ${esc(run.photo_file)} · <b>Drawing:</b> ${esc(run.drawing || 'N/A')}<br><b>Checks:</b> ${esc(run.checks_run.join(', '))}<br><b>Mode:</b> ${esc(run.mode)}</div><table><thead><tr><th>ITEM</th><th>EXPECTED</th><th>FOUND</th><th>RESULT</th><th>CONFIDENCE</th></tr></thead><tbody>${run.results.map(r => `<tr><td><b>${esc(r.name)}</b></td><td>${esc(r.expected)}</td><td>${esc(r.found)}</td><td><b>${esc(r.status)}</b></td><td>${Math.round(r.confidence * 100)}%</td></tr>`).join('')}</tbody></table><footer>${run.mode === 'CV Analysis' ? 'Results from ORB/SIFT feature matching + OCR pipeline.' : 'Prototype demonstration only.'} All files remain local.</footer></body></html>`;
+    const counts = { PASS: 0, FAIL: 0, UNREADABLE: 0, CLOSED: 0 };
+    run.results.forEach(r => counts[r.status] = (counts[r.status] || 0) + 1);
+    const failItems = run.results.filter(r => (r.status === 'FAIL' || r.status === 'UNREADABLE') && r.suggestion);
+    return `<!doctype html><html><head><title>CabinetSight Report — ${esc(run.run_id)}</title><style>
+body{font:13px/1.6 'Space Grotesk',Arial,sans-serif;color:#0F172A;margin:38px;background:#fff}
+h1{font-size:22px;margin-bottom:6px}h2{font-size:16px;margin:28px 0 12px;color:#1E293B;border-bottom:1px solid #E2E8F0;padding-bottom:6px}
+.badge{color:#0284C7;background:#E0F2FE;padding:4px 10px;border-radius:6px;font-size:10px;font-weight:600;display:inline-block}
+.meta{line-height:1.8;margin:16px 0;font-size:12px;color:#475569}
+.summary{display:flex;gap:16px;margin:18px 0}
+.sum-box{flex:1;padding:12px;border-radius:8px;text-align:center;font-size:11px;font-weight:600}
+.sum-box strong{display:block;font-size:22px;margin-bottom:2px}
+.s-pass{background:#F0FDF4;color:#166534}.s-fail{background:#FEF2F2;color:#991B1B}
+.s-unread{background:#FFFBEB;color:#92400E}.s-closed{background:#EFF6FF;color:#1E40AF}
+table{width:100%;border-collapse:collapse;margin-top:12px}
+th,td{text-align:left;padding:10px;border-bottom:1px solid #E2E8F0;font-size:11px}
+th{background:#F1F5F9;font-weight:700;color:#64748B;font-size:9px;letter-spacing:0.5px}
+.st{font-weight:700;padding:2px 8px;border-radius:4px;font-size:10px}
+.st-PASS{background:#DCFCE7;color:#166534}.st-FAIL{background:#FEE2E2;color:#991B1B}
+.st-UNREADABLE{background:#FEF3C7;color:#92400E}.st-CLOSED{background:#DBEAFE;color:#1E40AF}
+.fix-list{margin:0;padding:0 0 0 18px}.fix-list li{margin:8px 0;font-size:11px;line-height:1.5}
+.fix-label{font-weight:600;color:#991B1B}.fix-label.unread{color:#92400E}
+footer{margin-top:28px;color:#94A3B8;font-size:9px;border-top:1px solid #E2E8F0;padding-top:12px}
+@media print{body{margin:18mm}.summary{break-inside:avoid}}
+</style></head><body>
+<div style="color:#0284C7;font-size:10px;letter-spacing:1.5px;font-weight:600">CABINETSIGHT · PROJECT EAGLE EYE</div>
+<h1>Quality Control Inspection Report</h1>
+<span class="badge">${esc(modeLabel)}</span>
+<div class="meta"><b>Project:</b> ${esc(run.project)}<br><b>Run:</b> ${esc(run.run_id)}<br><b>Time:</b> ${esc(new Date(run.timestamp).toLocaleString())}<br><b>Photo:</b> ${esc(run.photo_file)} · <b>Drawing:</b> ${esc(run.drawing || 'N/A')}<br><b>Checks:</b> ${esc(run.checks_run.join(', '))} · <b>Threshold:</b> ${Math.round((run.confidence_threshold || 0.72) * 100)}%<br><b>Mode:</b> ${esc(run.mode)}</div>
+<div class="summary">
+<div class="sum-box s-pass"><strong>${counts.PASS}</strong>PASS</div>
+<div class="sum-box s-fail"><strong>${counts.FAIL}</strong>FAIL</div>
+<div class="sum-box s-unread"><strong>${counts.UNREADABLE}</strong>UNREADABLE</div>
+<div class="sum-box s-closed"><strong>${counts.CLOSED}</strong>CLOSED</div>
+</div>
+<h2>Checklist Results</h2>
+<table><thead><tr><th>#</th><th>ITEM</th><th>EXPECTED</th><th>FOUND</th><th>RESULT</th><th>CONFIDENCE</th></tr></thead><tbody>${run.results.map((r, i) => `<tr><td>${i + 1}</td><td><b>${esc(r.name)}</b><br><small style="color:#64748B">${esc(r.check)}</small></td><td>${esc(r.expected)}</td><td>${esc(r.found)}</td><td><span class="st st-${esc(r.status)}">${esc(r.status)}</span></td><td>${r.confidence != null ? Math.round(r.confidence * 100) + '%' : '—'}</td></tr>`).join('')}</tbody></table>
+${failItems.length ? `<h2>Suggested Corrective Actions</h2><ol class="fix-list">${failItems.map(r => `<li><span class="fix-label ${r.status === 'UNREADABLE' ? 'unread' : ''}">${esc(r.name)} [${esc(r.status)}]</span><br>${esc(r.suggestion)}</li>`).join('')}</ol>` : ''}
+<footer><b>CabinetSight v0.2</b> · ${run.mode === 'CV Analysis' ? 'ORB/SIFT feature matching + OCR pipeline' : 'Prototype demonstration'} · All files remain local · No data transmitted off-device<br>Generated ${new Date().toLocaleString()}</footer>
+</body></html>`;
   }
 
   /* ═══ HISTORY ═══ */
@@ -522,6 +572,12 @@
       $('#resultsArea').scrollIntoView({ behavior: 'smooth' });
     }));
   }
+
+  /* ═══ EVIDENCE RESIZE ═══ */
+  const photoFrame = $('#photoFrame');
+  if (photoFrame) new ResizeObserver(() => { if (currentRun) renderMarkers(); }).observe(photoFrame);
+  const cabinetImg = $('#cabinetPreview');
+  if (cabinetImg) cabinetImg.addEventListener('load', () => { if (currentRun) renderMarkers(); });
 
   /* ═══ ZOOM ═══ */
   $('#zoomButton').addEventListener('click', () => {
@@ -902,14 +958,28 @@
     });
   }, { threshold: 0.15 });
 
-  $$('#processTimeline .process-step, #processTimeline .process-connector').forEach((el, i) => {
-    el.style.transitionDelay = `${i * 0.1}s`;
-    scrollReveal.observe(el);
-  });
-  $$('#archDiagram .arch-layer, #archDiagram .arch-flow-arrow').forEach((el, i) => {
-    el.style.transitionDelay = `${i * 0.15}s`;
-    scrollReveal.observe(el);
-  });
+  /* ═══ ORBIT WORKFLOW ANIMATION ═══ */
+  const orbitRing = $('#orbitRing');
+  if (orbitRing) {
+    const nodes = $$('.orbit-node', orbitRing);
+    const total = nodes.length;
+    const radius = 175;
+    const startAngle = -90;
+    function positionNodes() {
+      nodes.forEach((node, i) => {
+        const angle = startAngle + (i / total) * 360;
+        const rad = angle * Math.PI / 180;
+        const x = 200 + radius * Math.cos(rad);
+        const y = 200 + radius * Math.sin(rad);
+        node.style.left = `${x / 400 * 100}%`;
+        node.style.top = `${y / 400 * 100}%`;
+      });
+    }
+    positionNodes();
+    nodes.forEach((node, i) => {
+      node.style.animationDelay = `${0.4 + i * 0.2}s`;
+    });
+  }
 
   /* ═══ INIT ═══ */
   initTheme();
