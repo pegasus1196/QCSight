@@ -99,6 +99,11 @@ UI only (no backend): open `index.html` in a browser and choose **Try demo data*
 
 All processing runs locally — no cloud calls, no telemetry. Organiser sample data is not committed to this repo.
 
+## License
+
+This project is released under the MIT License — see [LICENSE](LICENSE) for details.
+Third-party library licenses and attributions are listed in [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md).
+
 ## Credits
 
 Problem statement and example faults: Emerson PS #03, VIT Code Apex 3.0 (AISF, VIT Pune).

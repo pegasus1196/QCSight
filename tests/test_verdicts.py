@@ -2,6 +2,7 @@
 Verify the no-false-FAIL policy:
 - nothing detected → UNREADABLE (not FAIL)
 - low OCR confidence → UNREADABLE (not FAIL)
+- low alignment score → UNREADABLE (not FAIL)
 - confident wrong label → FAIL
 """
 import numpy as np
@@ -70,6 +71,15 @@ class TestLowOCRConfidence:
         )
         assert len(results) == 1
         assert results[0].status == Verdict.UNREADABLE
+
+
+class TestLowAlignmentScore:
+    """A poor alignment score must be UNREADABLE, not FAIL."""
+
+    def test_low_alignment_is_unreadable(self, inspector):
+        result = inspector._check_alignment(score=0.15, has_reference=True)
+        assert result.status == Verdict.UNREADABLE
+        assert result.confidence == 0.15
 
 
 class TestConfidentWrongLabel:

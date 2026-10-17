@@ -299,10 +299,10 @@
     let run;
 
     try {
-      const backendUp = await isBackendAvailable();
+      const hasRealPhoto = !!fileInputs.photo.files[0];
+      const backendUp = hasRealPhoto && await isBackendAvailable();
       if (backendUp) {
-        const isDemo = !fileInputs.photo.files[0];
-        const apiResult = await runBackendInspection(isDemo);
+        const apiResult = await runBackendInspection(false);
         run = {
           ...apiResult,
           parent_run: recheck ? currentRun?.run_id : null,

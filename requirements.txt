@@ -8,3 +8,4 @@ reportlab==5.0.1
 ultralytics==8.4.175
 pytesseract==0.3.13
 python-multipart==0.0.22
+scikit-learn==1.9.1

@@ -415,9 +415,9 @@ class CabinetInspector:
                 id="alignment-0", check="Photo alignment",
                 name="Photo to GA registration",
                 expected="Cabinet layout aligned to GA",
-                found=f"Poor alignment · {score:.0%}",
-                status=Verdict.FAIL, confidence=max(score, 0.3),
-                detail=f"Cannot align photo to drawing (score: {score:.0%}). Retake photo with better angle.",
+                found=f"Could not align photo to drawing · {score:.0%}",
+                status=Verdict.UNREADABLE, confidence=score,
+                detail="Retake a front-on photo with even lighting and the full cabinet in frame.",
             )
 
     def _check_wire_colours(
